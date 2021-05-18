@@ -12,16 +12,16 @@
                 </li>
                 <li class="nav-item">
                     <button @click="trend">Treading</button>
-
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href>Popular</a>
+                    <button @click="popular" >Popular</button>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+                <button class="btn btn-outline-success my-2 my-sm-0"  v-model="search" type="submit">Search</button>
             </form>
         </div>
     </nav>
@@ -34,6 +34,8 @@ name: "TreadingMovies",
     data(){
     return{
       trending:{},
+        movies :[],
+        search :''
     }
     },
 
@@ -41,10 +43,17 @@ name: "TreadingMovies",
     trend(page=1){
         axios.get('all_treading?page=' +page)
         .then(response =>{
-            //console.log(response.data);
+            console.log(response.data);
             this.trending = response.data;
         })
-    }
+    },
+        popular(page=1){
+            axios.get('all_popular?page=' +page)
+                .then(response =>{
+                    console.log(response.data);
+                    this.trending = response.data;
+                })
+        },
     }
 }
 </script>

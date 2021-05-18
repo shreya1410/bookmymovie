@@ -11,6 +11,9 @@ Route::get('all_movies',[\App\Http\Controllers\showmovie::class,'all_movies']);
 
 Route::get('all_treading',[\App\Http\Controllers\showmovie::class,'treading_movies']);
 
+Route::get('all_popular',[\App\Http\Controllers\showmovie::class,'popular_movies']);
+
+Route::get('search',[\App\Http\Controllers\showmovie::class,'search']);
 
 Route::get('admin/home',function (){return view('admin.home');
 })->name('post');

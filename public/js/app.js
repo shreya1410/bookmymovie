@@ -1913,6 +1913,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowmovieComponent",
   data: function data() {
@@ -1924,22 +1948,51 @@ __webpack_require__.r(__webpack_exports__);
       poster: '',
       cast: '',
       release_year: '',
-      runtime: ''
+      runtime: '',
+      city: '',
+      theatre: '',
+      search: '',
+      showsearch: false,
+      s_movie: []
     };
+  },
+  computed: {
+    filteredList: function filteredList() {
+      var _this = this;
+
+      return this.movies.filter(function (movie) {
+        movie.title.toLowerCase().includes(_this.search.toLowerCase());
+      });
+    }
   },
   mounted: function mounted() {
     this.getMovies();
   },
   methods: {
     getMovies: function getMovies() {
-      var _this = this;
+      var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get('all_movies?page=' + page).then(function (response) {
         //  console.log(response.data);
-        _this.movies = response.data;
+        _this2.movies = response.data;
       });
-    }
+    },
+    searchMovies: function searchMovies() {
+      var _this3 = this;
+
+      axios.get('search?q=' + this.search).then(function (res) {
+        return res.json;
+      });
+      console.log(res.json).then(function (res) {
+        _this3.s_movie = res;
+        _this3.search = '';
+        _this3.showsearch = true;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    bookshow: function bookshow() {}
   }
 });
 
@@ -1990,7 +2043,9 @@ __webpack_require__.r(__webpack_exports__);
   name: "TreadingMovies",
   data: function data() {
     return {
-      trending: {}
+      trending: {},
+      movies: [],
+      search: ''
     };
   },
   methods: {
@@ -1999,8 +2054,17 @@ __webpack_require__.r(__webpack_exports__);
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get('all_treading?page=' + page).then(function (response) {
-        //console.log(response.data);
+        console.log(response.data);
         _this.trending = response.data;
+      });
+    },
+    popular: function popular() {
+      var _this2 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('all_popular?page=' + page).then(function (response) {
+        console.log(response.data);
+        _this2.trending = response.data;
       });
     }
   }
@@ -2012,30 +2076,34 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/ExampleComponent */ "./resources/js/components/ExampleComponent.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default; //import VueRouter from 'vue-router'
-// Vue.use(VueRouter)
-//
-// const routes = [
-//     {path:'/',component:require('./components/ShowmovieComponent')},
-//     {path:'/trend',component:require('./components/TreadingMovies')},
-//
-// ]
-//
-//
-// const router = new VueRouter({
-//     routes : routes,
-//     mode : "history"
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default; // import VueRouter from 'vue-router'
+// Vue.use(VueRouter);
+// const router = new Router({
+//     mode:"history",
+//     base : process.env.BASE_URL,
+//     routes :[
+//         {
+//             path :"/home",
+//             redirect : "/some",
+//             name : "home",
+//             components : ExampleComponent,
+//         }
+//     ]
 // })
-//
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -2051,7 +2119,7 @@ Vue.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ ".
 
 var app = new Vue({
   el: '#app'
-}); //export default router;
+});
 
 /***/ }),
 
@@ -38352,83 +38420,209 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [_vm._v("All Movies")]),
+  return _c(
+    "div",
+    { staticClass: "container-fluid" },
+    [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "col-md-2" }),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "card-body" },
-            [
-              _vm._l(_vm.movies.data, function(movie) {
-                return _c(
+          _c("div", { staticClass: "col-md-8" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search,
+                  expression: "search"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.search },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group-prepend" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.searchMovies()
+                    }
+                  }
+                },
+                [_vm._v("search")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.showsearch === true
+            ? _c("div", [
+                _c(
                   "div",
-                  {
-                    key: _vm.movies.id,
-                    staticClass: "card",
-                    staticStyle: { width: "18rem" }
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "card-img-top",
-                      attrs: { alt: "Card image cap" }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "card-body" }, [
-                      _c("h5", { staticClass: "card-title" }, [
-                        _c("h3", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Movie name: ")
-                        ]),
-                        _vm._v(_vm._s(movie.title))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("ul", { staticClass: "list-group list-group-flush" }, [
-                      _c("li", { staticClass: "list-group-item" }, [
-                        _c("h3", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Movie overview ")
-                        ]),
-                        _vm._v("  " + _vm._s(movie.overview))
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-group-item" }, [
-                        _c("h3", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Release Year ")
-                        ]),
-                        _vm._v(_vm._s(movie.release_year))
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-group-item" }, [
-                        _c("h3", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Duration ")
-                        ]),
-                        _vm._v(_vm._s(movie.runtime))
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-group-item" }, [
-                        _c("h3", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Cast ")
-                        ]),
-                        _vm._v(_vm._s(movie.cast))
-                      ])
-                    ])
-                  ]
+                  { staticClass: "row" },
+                  _vm._l(_vm.s_movie, function(smovie) {
+                    return _c(
+                      "div",
+                      { key: smovie.id, staticClass: "col-md-8" },
+                      [
+                        _c("div", { staticClass: "card mb-4" }, [
+                          _c("img", {
+                            staticClass: "card-img-top",
+                            attrs: {
+                              src: smovie.poster,
+                              alt: smovie.id,
+                              height: "150px",
+                              width: "30px"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "card-body" }, [
+                            _c("h5", { staticClass: "card-title" }, [
+                              _c("h3", { staticClass: "font-weight-bold" }, [
+                                _vm._v("Movie name: ")
+                              ]),
+                              _vm._v(_vm._s(smovie.title))
+                            ]),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "card-text" }, [
+                              _c("h3", [_vm._v("Movie overview ")]),
+                              _vm._v("  " + _vm._s(smovie.overview))
+                            ]),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "card-text" }, [
+                              _c("h3", [_vm._v("Release Year ")]),
+                              _vm._v(_vm._s(smovie.release_year))
+                            ]),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "card-text" }, [
+                              _c("h3", [_vm._v("Runtime ")]),
+                              _vm._v(_vm._s(smovie.runtime))
+                            ]),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "card-text" }, [
+                              _c("h3", [_vm._v("Cast")]),
+                              _vm._v(_vm._s(smovie.cast))
+                            ]),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "card-text" }, [
+                              _c("h3", [_vm._v("City")]),
+                              _vm._v(_vm._s(smovie.city))
+                            ]),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "card-text" }, [
+                              _c("h3", [_vm._v("Theatre")]),
+                              _vm._v(_vm._s(smovie.theatre))
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  }),
+                  0
                 )
-              }),
-              _vm._v(" "),
-              _c("pagination", {
-                attrs: { data: _vm.movies },
-                on: { "pagination-change-page": _vm.getMovies }
-              })
-            ],
-            2
-          )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.showsearch === false
+            ? _c("div", [
+                _c(
+                  "div",
+                  { staticClass: "card-deck" },
+                  _vm._l(_vm.movies.data, function(movie) {
+                    return _c(
+                      "div",
+                      { key: _vm.movies.id, staticClass: "card" },
+                      [
+                        _c("img", {
+                          staticClass: "card-img-top",
+                          attrs: {
+                            src: movie.poster,
+                            alt: "image poster",
+                            height: "150px",
+                            width: "30px"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("h5", { staticClass: "card-title" }, [
+                            _c("h3", { staticClass: "font-weight-bold" }, [
+                              _vm._v("Movie name: ")
+                            ]),
+                            _vm._v(_vm._s(movie.title))
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "card-text" }, [
+                            _c("h3", [_vm._v("Movie overview ")]),
+                            _vm._v("  " + _vm._s(movie.overview))
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "card-text" }, [
+                            _c("h3", [_vm._v("Release Year ")]),
+                            _vm._v(_vm._s(movie.release_year))
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "card-text" }, [
+                            _c("h3", [_vm._v("Runtime ")]),
+                            _vm._v(_vm._s(movie.runtime))
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "card-text" }, [
+                            _c("h3", [_vm._v("Cast")]),
+                            _vm._v(_vm._s(movie.cast))
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "card-text" }, [
+                            _c("h3", [_vm._v("City")]),
+                            _vm._v(_vm._s(movie.city))
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "card-text" }, [
+                            _c("h3", [_vm._v("Theatre")]),
+                            _vm._v(_vm._s(movie.theatre))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.bookshow()
+                                }
+                              }
+                            },
+                            [_vm._v(" Book your show")]
+                          )
+                        ])
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ])
+            : _vm._e()
         ])
-      ])
-    ])
-  ])
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { align: "center", data: _vm.movies },
+        on: { "pagination-change-page": _vm.getMovies }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38477,10 +38671,37 @@ var render = function() {
               _c("button", { on: { click: _vm.trend } }, [_vm._v("Treading")])
             ]),
             _vm._v(" "),
-            _vm._m(2)
+            _c("li", { staticClass: "nav-item" }, [
+              _c("button", { on: { click: _vm.popular } }, [_vm._v("Popular")])
+            ])
           ]),
           _vm._v(" "),
-          _vm._m(3)
+          _c("form", { staticClass: "form-inline my-2 my-lg-0" }, [
+            _c("input", {
+              staticClass: "form-control mr-sm-2",
+              attrs: {
+                type: "search",
+                placeholder: "Search",
+                "aria-label": "Search"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-success my-2 my-sm-0",
+                attrs: { type: "submit" },
+                model: {
+                  value: _vm.search,
+                  callback: function($$v) {
+                    _vm.search = $$v
+                  },
+                  expression: "search"
+                }
+              },
+              [_vm._v("Search")]
+            )
+          ])
         ]
       )
     ]
@@ -38516,36 +38737,6 @@ var staticRenderFns = [
         _vm._v("Home "),
         _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "" } }, [
-        _vm._v("Popular")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("form", { staticClass: "form-inline my-2 my-lg-0" }, [
-      _c("input", {
-        staticClass: "form-control mr-sm-2",
-        attrs: { type: "search", placeholder: "Search", "aria-label": "Search" }
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-success my-2 my-sm-0",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Search")]
-      )
     ])
   }
 ]

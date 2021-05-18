@@ -78,6 +78,16 @@
                                     <input type="text" class="form-control" id="cast" name="cast" placeholder="cast">
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="city">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="theatre">theatre</label>
+                                    <input type="text" class="form-control" id="theatre" name="theatre" placeholder="theatre">
+                                </div>
+
                             </div>
                             <!-- /.card-body -->
 

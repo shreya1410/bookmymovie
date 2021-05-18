@@ -21,6 +21,8 @@ class CreateMoviesTable extends Migration
             $table->string('runtime');
             $table->string('cast');
             $table->boolean('treading');
+            $table->string('city');
+            $table->string('theatre');
             $table->string('poster');
             $table->timestamps();
         });

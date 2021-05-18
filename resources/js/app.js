@@ -4,25 +4,26 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import ExampleComponent from "./components/ExampleComponent";
+
 require('./bootstrap');
 
 window.Vue = require('vue').default;
-//import VueRouter from 'vue-router'
+// import VueRouter from 'vue-router'
+// Vue.use(VueRouter);
 
-// Vue.use(VueRouter)
-//
-// const routes = [
-//     {path:'/',component:require('./components/ShowmovieComponent')},
-//     {path:'/trend',component:require('./components/TreadingMovies')},
-//
-// ]
-//
-//
-// const router = new VueRouter({
-//     routes : routes,
-//     mode : "history"
+// const router = new Router({
+//     mode:"history",
+//     base : process.env.BASE_URL,
+//     routes :[
+//         {
+//             path :"/home",
+//             redirect : "/some",
+//             name : "home",
+//             components : ExampleComponent,
+//         }
+//     ]
 // })
-//
 
 
 // const files = require.context('./', true, /\.vue$/i)
@@ -31,8 +32,6 @@ window.Vue = require('vue').default;
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('showmovie-component',require('./components/ShowmovieComponent').default);
 Vue.component('treadingmovie-component',require('./components/TreadingMovies').default);
-
-
 Vue.component('pagination', require('laravel-vue-pagination'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -44,4 +43,3 @@ const app = new Vue({
      el: '#app',
 });
 
-//export default router;

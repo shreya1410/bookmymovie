@@ -43,6 +43,7 @@ class movieController extends Controller
             'runtime' =>'required',
             'poster' =>'required',
             'cast' =>'required',
+            'city' => ' required'
         ]);
         if($request->hasFile('poster')){
             $imageName = $request->poster->store('public');
@@ -54,6 +55,8 @@ class movieController extends Controller
         $movie->release_year = $request->release_year;
         $movie->poster= $imageName;
         $movie->cast  = $request->cast;
+        $movie->city = $request->city;
+        $movie->theatre = $request->theatre;
         $movie->save();
 
         return redirect(route('movie.index'));
